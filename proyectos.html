@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Callidus - Proyectos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  
+  <style>
+    /* ==========================
+       BACKGROUND VIDEO PARA A PÁGINA TODA
+    ========================== */
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+      opacity: 0.3;
+    }
+    .video-background video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    /* --------------------------
+       ESTILOS GLOBAIS
+    --------------------------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: black; 
+      color: #e0e0e0;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    
+    /* --------------------------
+       REVEAL - ANIMAÇÃO AO ROLAR
+    --------------------------- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* --------------------------
+       TÍTULO FIXO AO ROLAR
+    --------------------------- */
+    .hero-content {
+    position: relative; 
+    text-align: center;
+    padding: 0 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    }
+    .hero-content h1,
+    .hero-content p {
+      margin: 0;
+    }
+    
+    /* --------------------------
+       SETA PARA BAIXO
+    --------------------------- */
+    .down-arrow {
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: 60%; 
+    transform: translateX(-50%);
+    font-size: 3rem;
+    color: white;
+    cursor: pointer;
+    opacity: 0; 
+    animation: fade-in 2s ease-in-out forwards; 
+    }
+
+    @keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+    }
+/* --------------------------
+       LOGO E MENU LATERAL
+    --------------------------- */
+    .logo {
+      position: fixed;
+      top: 15px;
+      left: 20px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+    .logo img {
+      width: 150px;
+    }
+    .side-menu {
+      position: fixed;
+      top: 0;
+      left: -250px;
+      width: 250px;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      padding-top: 60px;
+      transition: left 0.3s ease;
+      z-index: 999;
+    }
+    .side-menu.open {
+      left: 0;
+    }
+    .side-menu ul {
+      list-style: none;
+    }
+    .side-menu ul li {
+      margin: 15px 0;
+    }
+    .side-menu ul li a {
+      display: block;
+      padding: 15px 20px;
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      transition: background-color 0.3s ease;
+    }
+    .side-menu ul li a:hover {
+      background-color: rgba(255,255,255,0.2);
+      border-radius: 5px;
+      color: #1a73e8;
+    }
+    
+    
+    /* ==========================
+       HERO / INTRODUÇÃO IMPACTANTE
+    ========================== */
+    header.hero {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+      background: transparent;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 0 20px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .hero-content h1 {
+      font-size: 3.5rem;
+      color: #1a73e8;
+      margin-bottom: 20px;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 2px solid #1a73e8;
+    }
+    .hero-content p {
+      font-size: 1.3rem;
+      margin-bottom: 40px;
+    }
+    .hero-content .btn {
+      padding: 15px 30px;
+      background: #1a73e8;
+      color: white;
+      text-decoration: none;
+      border-radius: 30px;
+      transition: background 0.3s ease;
+    }
+    .hero-content .btn:hover {
+      background: #1558b2;
+    }
+    
+    /* ==========================
+       TIMELINE - LINHA DO TEMPO INTERATIVA
+    ========================== */
+    section.timeline {
+      position: relative;
+      padding: 100px 10%;
+      background: transparent;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 2px;
+      background: #1a73e8;
+      transform: translateX(-50%);
+    }
+    .timeline-item {
+      position: relative;
+      width: 45%;
+      padding: 20px;
+      background: rgba(60, 58, 58, 0.74);
+      border-radius: 10px;
+      margin: 40px 0;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: transform 0.6s ease, opacity 0.6s ease;
+    }
+    .timeline-item.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .timeline-item:nth-child(odd) {
+      left: 0;
+      text-align: right;
+    }
+    .timeline-item:nth-child(even) {
+      left: 55%;
+      text-align: left;
+    }
+    .timeline-item .timeline-content {
+      display: flex;
+      align-items: center;
+      padding: 15px;
+      margin:0;
+      display:inline-block;
+    }
+    .timeline-item img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 10%; /* Faz a imagem ficar redonda como um ícone */
+      margin-bottom: 10px;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 10px;
+    }
+
+    .timeline-item:hover img {
+      transform: scale(1.05);
+    }
+    .timeline-item h3 {
+      color: #1a73e8;
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+    .timeline-item p {
+      font-size: 1rem;
+      margin-bottom: 15px;
+    }
+    .timeline-item .btn {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .timeline-item .btn:hover {
+      background: #1558b2;
+    }
+    
+    /* ==========================
+       RESULTADOS E IMPACTO
+    ========================== */
+    section.results {
+      padding: 80px 10%;
+      background: transparent;
+      text-align: center;
+    }
+    section.results .result-item {
+      margin: 20px;
+      display: inline-block;
+      width: 200px;
+    }
+    section.results .result-item h3 {
+      font-size: 3rem;
+      color: #1a73e8;
+    }
+    section.results .result-item p {
+      font-size: 1rem;
+      margin-top: 10px;
+    }
+    
+    /* ==========================
+       MODAL DE DETALHES
+    ========================== */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 10000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    .modal.open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal-content {
+      background: #2c2c2c;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 700px;
+      width: 100%;
+      position: relative;
+      text-align: left;
+      color: #e0e0e0;
+    }
+    .modal-content .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 28px;
+      cursor: pointer;
+      color: #e0e0e0;
+    }
+    
+    /* ==========================
+       FOOTER
+    ========================== */
+    footer {
+      position: relative;
+      background: transparent;
+      padding: 40px 0;
+      text-align: center;
+      color: #e0e0e0;
+      overflow: hidden;
+    }
+    .footer-content {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer-icons a {
+      color: white;
+      font-size: 24px;
+      margin: 0 10px;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+    .footer-icons a:hover {
+      transform: scale(1.1);
+      color: #1a73e8;
+    }
+    .footer-links a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 1.2rem;
+      transition: color 0.3s ease;
+    }
+    .footer-links a:hover {
+      color: #1a73e8;
+    }
+    .footer-content p {
+      margin-top: 20px;
+    }
+    
+    /* ==========================
+       BOTÓN "VOLVER ARRIBA"
+    ========================== */
+    #backToTop {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      padding: 15px 20px;
+      background: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      display: none;
+      z-index: 1000;
+      transition: background 0.3s ease;
+    }
+    #backToTop:hover {
+      background: #1558b2;
+    }
+    
+    /* ==========================
+       RESPONSIVIDADE
+    ========================== */
+    @media (max-width: 768px) {
+      .timeline-item {
+        width: 90%;
+        left: 5% !important;
+        text-align: left;
+      }
+      .timeline::before {
+        left: 5%;
+      }
+      .hero-content h1 {
+        font-size: 2.5rem;
+      }
+      .hero-content p {
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="video-background">
+    <video autoplay muted loop id="bg-video">
+      <source src="assets/background.mp4" type="video/mp4">
+      Tu navegador no soporta videos HTML5.
+    </video>
+  </div>
+  
+  <div class="logo" id="logo">
+    <img src="assets/logo.png" alt="Logotipo">
+  </div>
+  
+  <nav class="side-menu" id="side-menu">
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="sobre.html">Sobre Nosotros</a></li>
+      <li><a href="productos.html">Productos</a></li>
+      <li><a href="proyectos.html">Proyectos</a></li>
+      <li><a href="carreras.html">Carreras</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
+      <li><a href="politica-de-privacidad.html">Política de Privacidad</a></li>
+    </ul>
+  </nav>
+  
+  
+  <header class="hero reveal">
+    <div class="hero-content">
+<h1 id="typed-title" data-text="Nuestros Proyectos"></h1>
+      <p>Descubre cómo la innovación y la tecnología transforman cada proyecto.</p>
+      <a href="#timeline" class="btn">Explorar</a>
+    </div>
+  </header>
+  
+  <section id="timeline" class="timeline reveal">
+    <div class="timeline-item reveal">
+      <div class="timeline-content">
+        <img src="assets/recobros.jpg" alt="Automatización de Recobros con IA">
+        <h3>Automatización de Recobros con IA</h3>
+        <p>Reducción del 40% en el tiempo de recuperación de deudas mediante Machine Learning y automatización.</p>
+        <button class="btn" onclick="openModal('recobros')">Ver más</button>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-content">
+        <img src="assets/kamino.jpg" alt="Kamino - Chatbot Inteligente">
+        <h3>Kamino - Chatbot Inteligente</h3>
+        <p>Respuestas instantáneas y servicio 24/7 integrando NLP y deep learning para optimizar la atención al cliente.</p>
+        <button class="btn" onclick="openModal('kamino')">Ver más</button>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-content">
+        <img src="assets/transcripcion.jpg" alt="Transcripción Automática">
+        <h3>Transcripción Automática</h3>
+        <p>Sistema que transcribe audio a texto con 98% de precisión, facilitando la documentación y análisis.</p>
+        <button class="btn" onclick="openModal('transcripcion')">Ver más</button>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-content">
+        <img src="assets/ics.jpg" alt="ICS - Gestión Inteligente con IA">
+        <h3>ICS - Gestión Inteligente con IA</h3>
+        <p>Automatización de procesos internos con algoritmos predictivos para mejorar la eficiencia operativa.</p>
+        <button class="btn" onclick="openModal('ics')">Ver más</button>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-content">
+        <img src="assets/adecco.jpg" alt="ADECCO DOMINION">
+        <h3>ADECCO DOMINION</h3>
+        <p>Transformación en la gestión de recursos del sector bancario con soluciones innovadoras y disruptivas.</p>
+        <button class="btn" onclick="openModal('adecco')">Ver más</button>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-content">
+        <img src="assets/7play.jpg" alt="7 PLAY">
+        <h3>7 PLAY</h3>
+        <p>Revolucionamos el entretenimiento digital con soluciones interactivas que conectan a los usuarios de forma única.</p>
+        <button class="btn" onclick="openModal('7play')">Ver más</button>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-content">
+        <img src="assets/oficina.jpg" alt="Oficina Integral">
+        <h3>Oficina Integral</h3>
+        <p>Optimización integral de espacios y procesos administrativos mediante automatización avanzada.</p>
+        <button class="btn" onclick="openModal('oficina')">Ver más</button>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-content">
+        <img src="assets/pontes.jpg" alt="Pontes Rodoviárias">
+        <h3>Pontes Rodoviárias</h3>
+        <p>Infraestructura inteligente que mejora el flujo vehicular y aumenta la seguridad en las vías.</p>
+        <button class="btn" onclick="openModal('pontes')">Ver más</button>
+      </div>
+    </div>
+  </section>
+  
+  <section id="results" class="results reveal">
+    <h2 class="section-title">Impacto y Resultados</h2>
+    <div class="result-item">
+      <h3 class="counter" data-target="1000000">0</h3>
+      <p>+1M de interacciones con Kamino</p>
+    </div>
+    <div class="result-item">
+      <h3 class="counter" data-target="98">0</h3>
+      <p>% de precisión en transcripción automática</p>
+    </div>
+    <div class="result-item">
+      <h3 class="counter" data-target="40">0</h3>
+      <p>% reducción en tiempos de recuperación</p>
+    </div>
+  </section>
+  
+  <div class="modal" id="projectModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <div id="modalContent">
+      </div>
+    </div>
+  </div>
+  
+  <button id="backToTop" onclick="scrollToTop()">Volver arriba</button>
+  
+  <footer class="reveal">
+    <div class="footer-content">
+      <div class="footer-icons">
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+      </div>
+      <div class="footer-links">
+        <a href="politica-de-privacidad.html">Política de Privacidad y Términos de Uso</a>
+      </div>
+      <p>&copy; 2025 Callidus</p>
+    </div>
+  </footer>
+  <script src="js/script.js"></script>
+
+</body>
+</html>

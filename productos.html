@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Callidus - Productos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  
+  <style>
+    /* ==========================
+       BACKGROUND VIDEO GLOBAL
+    ========================== */
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+      opacity: 0.3;
+    }
+    .video-background video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    /* ==========================
+       Estilos Globales
+    ========================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      min-height: 100vh;
+      font-family: 'Montserrat', sans-serif;
+      background: black; 
+      color: white;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      text-align: center;
+    }
+    
+    /* ==========================
+       Cabeçalho, Logo e Menu Lateral
+    ========================== */
+    .logo {
+      position: fixed;
+      top: 15px;
+      left: 20px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+    .logo img {
+      width: 150px;
+    }
+    
+    .side-menu {
+      position: fixed;
+      top: 0;
+      left: -250px;
+      width: 250px;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      padding-top: 60px;
+      transition: left 0.3s ease;
+      z-index: 999;
+      text-align: left;
+    }
+    .side-menu.open {
+      left: 0;
+    }
+    #menu-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+    .side-menu ul {
+      list-style: none;
+      position: relative;
+      z-index: 2;
+    }
+    .side-menu ul li {
+      margin: 15px 0;
+    }
+    .side-menu ul li a {
+      display: block;
+      padding: 15px 20px;
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      transition: background-color 0.3s ease;
+    }
+    .side-menu ul li a:hover {
+      background-color: rgba(255,255,255,0.2);
+      border-radius: 5px;
+      color: #1a73e8;
+    }
+    
+    /* ==========================
+       Main Content e Hero Section
+    ========================== */
+    main {
+      flex: 1;
+      position: relative;
+      z-index: 2;
+      padding: 100px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .hero {
+      margin-bottom: 50px;
+    }
+ 
+    .hero h1 {
+        margin-top:200px;
+      font-size: 3.5rem;
+      color: #1a73e8;
+      margin-bottom: 20px;
+      opacity: 0;
+      transform: translateY(-20px);
+      animation: fadeInDown 0.8s forwards;
+    }
+    .hero p {
+      font-size: 1.5rem;
+      color: #e0e0e0;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.8s forwards;
+      animation-delay: 0.3s;
+    }
+    @keyframes fadeInDown {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* ==========================
+       Carousel de Productos (Scroll-Snap)
+    ========================== */
+    .products-section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      opacity: 0;
+      animation: fadeInUp 0.8s forwards;
+      animation-delay: 0.2s;
+    }
+    .carousel-container {
+      width: 70%;
+      height: 450px;
+      margin: 0 auto 20px;
+      overflow-x: auto;
+      display: flex;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      gap: 10px;
+      padding: 10px;
+      position: relative;
+    }
+    .products-carousel {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding: 10px;
+      position: relative;
+    }
+    .products-carousel > .producto {
+      scroll-snap-align: start;
+    }
+    .producto {
+      flex: 0 0 10%;
+      height: 100%;
+      width: 50%;
+      border: 2px solid white;
+      border-radius: 10px;
+      transition: flex 0.5s ease-in-out, transform 0.5s ease;
+      cursor: pointer;
+      flex-direction: column;
+      padding: 10px;
+      flex: 0 0 20%; 
+      height: 300px; 
+      background-size: cover; 
+      background-position: center;
+      background-repeat: no-repeat; 
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white; 
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, flex 0.3s ease;
+      }
+   
+.producto:hover {
+  transform: scale(1.05); 
+  flex: 0 0 35%; 
+}
+
+.producto h3, .producto p {
+  z-index: 2;
+  position: relative;
+}
+
+.producto::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4); 
+  z-index: 1;
+}
+    /* ==========================
+   Estilo para as setas de navegação
+========================== */
+    .carousel-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      font-size: 2rem;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      z-index: 100;
+      transition: background-color 0.3s ease;
+    }
+
+    .carousel-nav:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .carousel-prev {
+      left: 10px;
+    }
+
+    .carousel-next {
+      right: 10px;
+    }
+
+    /* ==========================
+       Botón "¿Quieres probarla?" (externo)
+    ========================== */
+    .open-form {
+      margin: 30px auto 50px;
+      padding: 15px 30px;
+      background-color: #1a73e8;
+      border: none;
+      border-radius: 30px;
+      color: white;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .open-form:hover {
+      background-color: #1558b2;
+    }
+    
+    /* ==========================
+       Modal Popup (Detalles del Producto)
+    ========================== */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 10000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    .modal.open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal-content {
+      background: #2c2c2c;
+      color: #f0f0f0;
+      border-radius: 10px;
+      max-width: 700px;
+      width: 100%;
+      padding: 30px;
+      position: relative;
+      transform: translateY(-30px);
+      opacity: 0;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      max-height: 80vh;
+      overflow-y: auto;
+      text-align: left;
+      line-height: 1.6;
+    }
+    .modal.open .modal-content {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .close-modal {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 26px;
+      cursor: pointer;
+      color: #f0f0f0;
+    }
+    .modal-content h2 {
+      font-size: 1.875rem;
+      margin-bottom: 10px;
+      color: #1a73e8;
+    }
+    .modal-content h3 {
+      font-size: 1.375rem;
+      margin-bottom: 5px;
+    }
+    .modal-content p {
+      font-size: 0.975rem;
+      margin-bottom: 15px;
+    }
+    .open-form-inside {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 24px;
+      background-color: #1a73e8;
+      border: none;
+      border-radius: 30px;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .open-form-inside:hover {
+      background-color: #1558b2;
+    }
+    .modal-content video {
+      width: 100%;
+      border-radius: 10px;
+      margin-top: 20px;
+      transition: transform 0.3s ease;
+    }
+    .modal-content video:hover {
+      transform: scale(1.03);
+    }
+    
+    /* ==========================
+       Overlay Form (Experiência Imersiva)
+       – Aparece sobre el modal (z-index superior)
+    ========================== */
+    #overlay-form {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 11000;  
+      visibility: hidden;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    #overlay-form.open {
+      opacity: 1;
+      visibility: visible;
+    }
+    #bg-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
+    .form-container {
+      position: relative;
+      background: #0d1a52;
+      padding: 30px;
+      border-radius: 10px;
+      width: 400px;
+      text-align: center;
+      z-index: 100;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    }
+    .form-container h2 {
+      color:#007bff;
+      font-size: 25px;
+      margin-bottom: 15px;
+      text-align: center;
+
+    }
+    .form-container label {
+      display: block;
+      text-align: left;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    .form-container input,
+    .form-container textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+    .form-container input::placeholder,
+    .form-container textarea::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+    .form-container button[type="submit"] {
+      width: 100%;
+      padding: 12px;
+      background: #007bff;
+      color: white;
+      font-size: 14px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .form-container button[type="submit"]:hover {
+      background: #0056b3;
+    }
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+      font-size: 12px;
+      color: white;
+    }
+    .checkbox-container a {
+      color: #1a73e8;
+      text-decoration: none;
+    }
+    .checkbox-container a:hover {
+      text-decoration: underline;
+    }
+    .close-form {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .close-form img {
+      width: 20px;
+    }
+    
+    /* ==========================
+       Footer com Video de Background
+    ========================== */
+    footer {
+      padding: 40px 0;
+      color: #e0e0e0;
+      text-align: center;
+      z-index: 2;
+      position: relative;
+    }
+    .footer-content {
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .footer-icons a {
+      color: white;
+      font-size: 24px;
+      margin: 0 10px;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+    .footer-icons a:hover {
+      transform: scale(1.1);
+      color: #1a73e8;
+    }
+    .footer-links a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 1.2rem;
+      transition: color 0.3s ease;
+    }
+    .footer-links a:hover {
+      color: #1a73e8;
+    }
+    
+    /* ==========================
+       Responsividad
+    ========================== */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      .hero p {
+        font-size: 1.1rem;
+      }
+      main {
+        padding: 80px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="video-background">
+    <video autoplay muted loop>
+      <source src="assets/background.mp4" type="video/mp4">
+      Tu navegador no soporta videos HTML5.
+    </video>
+  </div>
+  
+  <div class="logo" id="logo">
+    <img src="assets/logo.png" alt="Logotipo">
+  </div>
+  
+  <nav class="side-menu" id="side-menu">
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="sobre.html">Sobre Nosotros</a></li>
+      <li><a href="productos.html">Productos</a></li>
+      <li><a href="proyectos.html">Proyectos</a></li>
+      <li><a href="carreras.html">Carreras</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
+      <li><a href="politica-de-privacidad.html">Política de Privacidad</a></li>
+    </ul>
+  </nav>
+  
+  
+  <header class="hero reveal">
+    <div class="hero-content">
+      <h1 id="typed-title" data-text="Productos"></h1>
+      <p>Descubre las soluciones tecnológicas de Callidus</p>
+    </div>
+  </header>
+  
+  <main id="main-content">
+    <section class="products-section">
+      <h2>Nuestros Productos</h2>
+          <button class="carousel-nav carousel-prev" id="carouselPrev">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+  
+      <div class="carousel-container" id="carouselContainer">
+
+    
+        <div class="products-carousel" id="productsCarousel">
+          <div class="producto" 
+               data-name="Kamino - Chatbot Inteligente" 
+               data-description="" 
+               data-video="assets/demo.mp4"
+               style="background-image: url('assets/kamino.png');">
+            <h3>Kamino</h3>
+            <p>Chatbot Inteligente</p>
+          </div>
+          <div class="producto" 
+               data-name="Athena - Asistente Virtual" 
+               data-description="" 
+               data-video="assets/demo.mp4"
+               style="background-image: url('assets/athena.png');">
+            <h3>Athena</h3>
+            <p>Asistente Virtual</p>
+          </div>
+          <div class="producto" 
+               data-name="Orion - Sistema de Análisis" 
+               data-description="" 
+               data-video="assets/demo.mp4"
+               style="background-image: url('assets/orion.png');">
+            <h3>Orion</h3>
+            <p>Análisis</p>
+          </div>
+          <div class="producto" 
+               data-name="Helix - Automatización de Procesos" 
+               data-description="" 
+               data-video="assets/demo.mp4"
+               style="background-image: url('assets/helix.png');">
+            <h3>Helix</h3>
+            <p>Automatización</p>
+          </div>
+          <div class="producto" 
+               data-name="Nova - Plataforma de Innovación" 
+               data-description="" 
+               data-video="assets/demo.mp4"
+               style="background-image: url('assets/nova.png');">
+            <h3>Nova</h3>
+            <p>Innovación</p>
+          </div>
+          <div class="producto" 
+               data-name="Vortex - Solución de Seguridad" 
+               data-description="" 
+               data-video="assets/demo.mp4"
+               style="background-image: url('assets/vortex.png');">
+            <h3>Vortex</h3>
+            <p>Seguridad</p>
+          </div>
+          <div class="producto" 
+               data-name="Quantum - Inteligencia Predictiva" 
+               data-description="" 
+               data-video="assets/demo.mp4"
+               style="background-image: url('assets/quantum.png');">
+            <h3>Quantum</h3>
+            <p>Predictiva</p>
+          </div>
+          <div class="producto" 
+               data-name="Eclipse - Gestión Integral" 
+               data-description="" 
+               data-video="assets/demo.mp4"
+               style="background-image: url('assets/eclipse.png');">
+            <h3>Eclipse</h3>
+            <p>Gestión Integral</p>
+          </div>
+        </div>
+
+      
+
+      </div>
+        <button class="carousel-nav carousel-next" id="carouselNext">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      <button class="open-form" onclick="mostrarFormulario()">¡Haz click para probar alguno de nuestros productos!</button>
+    </section>
+  </main>
+  
+  <div class="modal" id="productModal">
+    <div class="modal-content">
+      <span class="close-modal" id="closeModal">&times;</span>
+      <div id="modalDetails">
+      </div>
+      <video controls id="modalProductVideo">
+        <source src="" type="video/mp4">
+        Tu navegador no soporta videos HTML5.
+      </video>
+    </div>
+  </div>
+  
+  <div id="overlay-form">
+    <video autoplay muted loop id="bg-video">
+      <source src="assets/background.mp4" type="video/mp4">
+      Tu navegador no soporta videos HTML5.
+    </video>
+    <div class="form-container">
+      <button class="close-form" onclick="fecharFormulario()">
+        <img src="assets/icon-close.png" alt="Cerrar">
+      </button>
+      <h2>Déjanos tus datos de contacto</h2>
+      <form>
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" placeholder="Tu nombre" required>
+  
+        <label for="email">Email *</label>
+        <input type="email" id="email" placeholder="Tu correo electrónico" required>
+  
+        <label for="mensaje">Mensaje</label>
+        <textarea id="mensaje" placeholder="Escribe tu mensaje"></textarea>
+  
+        <div class="checkbox-container">
+          <input type="checkbox" id="privacidad" required>
+          <label for="privacidad">
+            Estoy de acuerdo con la <a href="politica-de-privacidad.html">política de privacidad de datos</a>
+          </label>
+        </div>
+  
+        <button type="submit">Enviar</button>
+      </form>
+    </div>
+  </div>
+  
+  <footer>
+    <div class="footer-content">
+      <div class="footer-icons">
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+      </div>
+      <div class="footer-links">
+        <a href="politica-de-privacidad.html">Política de Privacidad y Términos de Uso</a>
+      </div>
+      <p>&copy; 2025 Callidus</p>
+    </div>
+  </footer>
+
+  <script>
+    const logo = document.getElementById('logo');
+    const sideMenu = document.getElementById('side-menu');
+    logo.addEventListener('click', () => {
+      sideMenu.classList.toggle('open');
+    });
+    
+    const typedTitleText = "Productos";
+    const typedTitleElement = document.getElementById("typed-title");
+    let titleIndex = 0;
+    function typeTitle() {
+      if (titleIndex < typedTitleText.length) {
+        typedTitleElement.textContent += typedTitleText.charAt(titleIndex);
+        titleIndex++;
+        setTimeout(typeTitle, 150);
+      } else {
+        typedTitleElement.style.borderRight = "none";
+      }
+    }
+    window.addEventListener("load", typeTitle);
+    
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    document.querySelectorAll('.reveal').forEach(el => {
+      observer.observe(el);
+    });
+    
+    let modalWasOpen = false;
+    const modal = document.getElementById('productModal');
+    const closeModal = document.getElementById('closeModal');
+    const modalDetails = document.getElementById('modalDetails');
+    const modalProductVideo = document.getElementById('modalProductVideo');
+    const body = document.body;
+
+    const products = document.querySelectorAll('.producto');
+    products.forEach(product => {
+      product.addEventListener('click', function() {
+        const name = product.getAttribute('data-name');
+        const videoSrc = product.getAttribute('data-video');
+        
+        if (name.toLowerCase().includes("kamino")) {
+          modalDetails.innerHTML = `
+              <h2>KAMINO y KAMINO FOR RETAIL</h2>
+              <br>
+              <h3>¿QUIERES PROBARLA? ¡ELIGE EL TUYO</h3>
+              <br><br>
+              <h4>KAMINO</h4>
+              <p><strong>Script de agente – Guión Ideal para centralitas</strong></p>
+              <p>El script de atención al cliente y soporte es una herramienta fácil de usar y editar para adaptarse a su área de soporte. Cree tickets de forma rápida y sencilla de forma totalmente automatizada y dinámica, sin perder ningún tipo de información, ya que cada recorrido del script queda registrado en el sistema, permitiéndole obtener indicadores clave de rendimiento y otras métricas importantes en tiempo real. Con este software, su servicio de atención al cliente alcanzará sin duda otro nivel. Póngase en contacto con nosotros y solicite una demostración, ¡se sorprenderá!</p>
+              <br>
+              <h4>KAMINO FOR RETAIL</h4>
+              <p><strong>Script de agente – Guión Ideal para Ventas asistidas y cruzadas</strong></p>
+              <p>El guión de venta asistida y venta cruzada es una herramienta fácil de usar, editar e integrar con su catálogo de productos. Ayude a sus vendedores a vender más y mejor, a la vez que ayuda a sus clientes a encontrar los mejores productos para sus necesidades. Kamino para Retail incluye un componente de gamificación, conseguido a través de un simulador de ventas por comisiones, que facilita y estimula una sana competitividad entre los vendedores. Con este software, su servicio venderá más y mejor, y tendrá una visión clara del análisis de sus KPI para predecir el mejor camino hacia el éxito. Póngase en contacto con nosotros y solicite una demostración ahora.</p>
+              <br>
+              <button class="open-form-inside" onclick="abrirFormularioDesdeModal()">¿Quieres probarla?</button>
+          `;
+        } else if (name.toLowerCase().includes("athena")) {
+          modalDetails.innerHTML = `
+              <h2>ATHENA - Asistente Virtual Inteligente</h2>
+              <br>
+              <h3>¿QUIERES PROBARLA? ¡VIVE UNA EXPERIENCIA DIGITAL AVANZADA!</h3>
+              <br><br>
+              <h4>ATHENA</h4>
+              <p><strong>Asistente Virtual para Empresas</strong></p>
+              <p>Athena es una asistente virtual basada en inteligencia artificial diseñada para ayudar a las empresas a automatizar la atención al cliente, mejorar la eficiencia operativa y reducir costos. Con Athena, los usuarios pueden interactuar de forma natural y obtener respuestas rápidas a preguntas frecuentes, gestionar citas y reservas, y recibir recomendaciones personalizadas. Además, Athena se adapta a las necesidades de cada empresa y está disponible las 24 horas del día, 7 días a la semana.</p>
+              <br>
+              <h4>Athena para Soporte al Cliente</h4>
+              <p><strong>Asistencia instantánea – Guía proactiva para clientes</strong></p>
+              <p>Además de su capacidad de atender consultas generales, Athena está equipada con herramientas avanzadas de análisis para detectar problemas recurrentes y ofrecer soluciones automáticas de manera proactiva. Esto le permite a las empresas reducir la carga de trabajo del equipo de soporte mientras mejora la experiencia del cliente.</p>
+              <br>
+              <button class="open-form-inside" onclick="abrirFormularioDesdeModal()">¿Quieres probarla?</button>
+          `;
+        } else if (name.toLowerCase().includes("orion")) {
+          modalDetails.innerHTML = `
+              <h2>ORION - Sistema de Análisis Avanzado</h2>
+              <br>
+              <h3>¿QUIERES PROBARLO? ¡TRANSFORMA TUS DATOS EN INFORMACIÓN VALIOSA!</h3>
+              <br><br>
+              <h4>ORION</h4>
+              <p><strong>Sistema de análisis de datos para empresas</strong></p>
+              <p>Orion es una plataforma de análisis de datos diseñada para ayudar a las empresas a tomar decisiones basadas en datos. Con su capacidad de integrar y analizar grandes volúmenes de datos, Orion proporciona información en tiempo real que permite a las empresas optimizar sus operaciones, reducir costos y mejorar la toma de decisiones estratégicas. Además, Orion ofrece informes detallados, paneles interactivos y visualizaciones intuitivas que hacen que los datos sean fáciles de interpretar.</p>
+              <br>
+              <h4>Orion para Inteligencia Empresarial</h4>
+              <p><strong>Visualización avanzada de datos y predicción de tendencias</strong></p>
+              <p>Orion no solo proporciona informes, sino que también utiliza algoritmos de predicción para anticipar tendencias de mercado y comportamiento del consumidor. Esto permite a las empresas planificar con anticipación y tomar decisiones proactivas que mejoren su competitividad.</p>
+              <br>
+              <button class="open-form-inside" onclick="abrirFormularioDesdeModal()">¿Quieres probarlo?</button>
+          `;
+        } else if (name.toLowerCase().includes("helix")) {
+          modalDetails.innerHTML = `
+              <h2>HELIX - Plataforma de Automación de Procesos</h2>
+              <br>
+              <h3>¿QUIERES PROBARLA? ¡REVOLUCIONA TU EMPRESA AHORA!</h3>
+              <br><br>
+              <h4>HELIX</h4>
+              <p><strong>Automatización de procesos empresariales</strong></p>
+              <p>Helix es una plataforma de automatización diseñada para simplificar y agilizar los procesos internos de las empresas. Con Helix, puedes automatizar tareas repetitivas, como la gestión de correos electrónicos, la programación de citas, la facturación y mucho más. Esto reduce el tiempo que el personal dedica a tareas administrativas, lo que les permite centrarse en actividades de mayor valor estratégico.</p>
+              <br>
+              <h4>Helix para Optimización de Recursos</h4>
+              <p><strong>Automatización de procesos comerciales y administrativos</strong></p>
+              <p>Helix integra herramientas de análisis y reportes que permiten a las empresas medir el impacto de la automatización en la productividad. Con su interfaz amigable, las empresas pueden configurar flujos de trabajo personalizados que se adapten a sus necesidades específicas, optimizando la eficiencia de cada área del negocio.</p>
+              <br>
+              <button class="open-form-inside" onclick="abrirFormularioDesdeModal()">¿Quieres probarla?</button>
+          `;
+        } else if (name.toLowerCase().includes("nova")) {
+          modalDetails.innerHTML = `
+              <h2>NOVA - Plataforma de Innovación Empresarial</h2>
+              <br>
+              <h3>¿QUIERES PROBARLA? ¡INNOVA Y LIDERA EL MERCADO!</h3>
+              <br><br>
+              <h4>NOVA</h4>
+              <p><strong>Plataforma para la creación de nuevos productos y servicios</strong></p>
+              <p>Nova es una plataforma de innovación empresarial que permite a las organizaciones crear nuevos productos y servicios de manera rápida y eficiente. Con herramientas de colaboración en línea, análisis de tendencias de mercado y simulaciones de producto, Nova permite a las empresas reducir el tiempo de desarrollo y minimizar los riesgos asociados con la innovación.</p>
+              <br>
+              <h4>Nova para Startups</h4>
+              <p><strong>Transformación digital y optimización de procesos creativos</strong></p>
+              <p>Nova está especialmente diseñada para startups que buscan un enfoque ágil y flexible para el desarrollo de sus productos. Ofrece herramientas para realizar pruebas de concepto, iteraciones rápidas y validación de ideas de mercado.</p>
+              <br>
+              <button class="open-form-inside" onclick="abrirFormularioDesdeModal()">¿Quieres probarla?</button>
+          `;
+        } else if (name.toLowerCase().includes("vortex")) {
+          modalDetails.innerHTML = `
+              <h2>VORTEX - Plataforma de Seguridad Cibernética</h2>
+              <br>
+              <h3>¿QUIERES PROBARLA? ¡PROTEGE TU NEGOCIO AHORA!</h3>
+              <br><br>
+              <h4>VORTEX</h4>
+              <p><strong>Plataforma integral de seguridad cibernética</strong></p>
+              <p>Vortex es una plataforma avanzada de seguridad cibernética que protege a las empresas contra amenazas digitales. Con funcionalidades como la detección de intrusiones, análisis de vulnerabilidades y monitoreo en tiempo real, Vortex garantiza que los datos sensibles de la empresa estén seguros. Además, Vortex ofrece herramientas de formación y simulación de ataques cibernéticos para educar a los empleados en mejores prácticas de seguridad.</p>
+              <br>
+              <h4>Vortex para Empresas</h4>
+              <p><strong>Defensa proactiva contra ataques cibernéticos</strong></p>
+              <p>Vortex proporciona análisis predictivo que identifica posibles brechas de seguridad antes de que ocurran, permitiendo a las empresas tomar medidas preventivas. También integra herramientas de respuesta ante incidentes que ayudan a las empresas a mitigar los daños en caso de un ataque.</p>
+              <br>
+              <button class="open-form-inside" onclick="abrirFormularioDesdeModal()">¿Quieres probarla?</button>
+          `;
+        } else if (name.toLowerCase().includes("quantum")) {
+          modalDetails.innerHTML = `
+              <h2>QUANTUM - Inteligencia Predictiva</h2>
+              <br>
+              <h3>¿QUIERES PROBARLA? ¡ANTICIPA EL FUTURO AHORA!</h3>
+              <br><br>
+              <h4>QUANTUM</h4>
+              <p><strong>Solución de inteligencia predictiva para empresas</strong></p>
+              <p>Quantum es una plataforma avanzada de inteligencia predictiva que utiliza algoritmos de aprendizaje automático para predecir tendencias y comportamientos futuros. Con Quantum, las empresas pueden anticipar cambios en el mercado, adaptarse a las demandas de los clientes y tomar decisiones estratégicas informadas basadas en datos predictivos.</p>
+              <br>
+              <h4>Quantum para Estrategias de Negocios</h4>
+              <p><strong>Optimización de la toma de decisiones y análisis predictivo</strong></p>
+              <p>Quantum analiza grandes volúmenes de datos históricos para identificar patrones y prever el comportamiento futuro de los consumidores, ayudando a las empresas a diseñar estrategias comerciales más efectivas. Además, ofrece herramientas de simulación para probar diferentes escenarios y evaluar los posibles resultados.</p>
+              <br>
+              <button class="open-form-inside" onclick="abrirFormularioDesdeModal()">¿Quieres probarla?</button>
+          `;
+        } else if (name.toLowerCase().includes("eclipse")) {
+          modalDetails.innerHTML = `
+              <h2>ECLIPSE - Gestión Integral</h2>
+              <br>
+              <h3>¿QUIERES PROBARLA? ¡OPTIMIZA TU NEGOCIO AHORA!</h3>
+              <br><br>
+              <h4>ECLIPSE</h4>
+              <p><strong>Plataforma de gestión empresarial todo-en-uno</strong></p>
+              <p>Eclipse es una plataforma de gestión integral que conecta todos los aspectos operativos de una empresa, desde la administración de recursos humanos hasta la gestión de inventarios y la contabilidad. Con Eclipse, las empresas pueden automatizar y optimizar procesos, mejorar la eficiencia operativa y obtener informes en tiempo real.</p>
+              <br>
+              <h4>Eclipse para Empresas</h4>
+              <p><strong>Gestión eficiente de recursos y operaciones</strong></p>
+              <p>Eclipse ofrece un panel centralizado que permite a los administradores gestionar todos los aspectos del negocio de manera sencilla. Además, la plataforma cuenta con integración con sistemas externos, lo que facilita la sincronización de datos y mejora la toma de decisiones.</p>
+              <br>
+              <button class="open-form-inside" onclick="abrirFormularioDesdeModal()">¿Quieres probarla?</button>
+          `;
+        }
+        
+        modalProductVideo.querySelector('source').src = videoSrc;
+        modalProductVideo.load();
+        modal.classList.add('open');
+        body.style.overflow = 'hidden';
+      });
+    });
+    
+    closeModal.addEventListener('click', () => {
+      modal.classList.remove('open');
+      body.style.overflow = '';
+    });
+    
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('open');
+        body.style.overflow = '';
+      }
+    });
+    
+    const sections = document.querySelectorAll('section');
+    window.addEventListener('scroll', () => {
+      sections.forEach(section => {
+        const sectionTop = section.getBoundingClientRect().top;
+        if (sectionTop < window.innerHeight - 150) {
+          section.classList.add('visible');
+        }
+      });
+    });
+    
+    
+    const overlayForm = document.getElementById("overlay-form");
+    function mostrarFormulario() {
+      if (modal.classList.contains('open')) {
+        modalWasOpen = true;
+        modal.classList.remove('open');
+      } else {
+        modalWasOpen = false;
+      }
+      overlayForm.classList.add("open");
+    }
+    
+    function abrirFormularioDesdeModal() {
+      modalWasOpen = true;
+      modal.classList.remove("open");
+      overlayForm.classList.add("open");
+    }
+    
+    function fecharFormulario() {
+      overlayForm.classList.remove("open");
+      if (modalWasOpen) {
+        setTimeout(() => {
+          modal.classList.add("open");
+        }, 0);
+      }
+    }
+    
+const carouselPrev = document.getElementById('carouselPrev');
+const carouselNext = document.getElementById('carouselNext');
+const carouselContainer = document.getElementById('productsCarousel');
+
+carouselPrev.addEventListener('click', () => {
+  carouselContainer.scrollBy({
+    left: -300, 
+    behavior: 'smooth'
+  });
+});
+
+
+carouselNext.addEventListener('click', () => {
+  carouselContainer.scrollBy({
+    left: 300, 
+    behavior: 'smooth'
+  });
+});
+
+  </script>
+  
+  
+</body>
+</html>

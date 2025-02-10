@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Callidus - Contacto</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  
+  <style>
+    /* --------------------------
+       BACKGROUND VIDEO GLOBAL
+    --------------------------- */
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+      opacity: 0.3;
+    }
+    .video-background video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+      
+    /* --------------------------
+       ESTILOS GLOBAIS
+    --------------------------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: black; /* O fundo é o vídeo */
+      color: #e0e0e0;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    
+    /* --------------------------
+       REVEAL - ANIMAÇÃO AO ROLAR
+    --------------------------- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* --------------------------
+       TÍTULO FIXO AO ROLAR
+    --------------------------- */
+    .hero-content {
+    position: relative; 
+    text-align: center;
+    padding: 0 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    }
+    .hero-content h1,
+    .hero-content p {
+      margin: 0;
+    }
+    
+    /* --------------------------
+       SETA PARA BAIXO
+    --------------------------- */
+    .down-arrow {
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: 60%; 
+    transform: translateX(-50%);
+    font-size: 3rem;
+    color: white;
+    cursor: pointer;
+    opacity: 0; 
+    animation: fade-in 2s ease-in-out forwards; 
+    }
+
+    @keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+    }
+/* --------------------------
+       LOGO E MENU LATERAL
+    --------------------------- */
+    .logo {
+      position: fixed;
+      top: 15px;
+      left: 20px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+    .logo img {
+      width: 150px;
+    }
+    .side-menu {
+      position: fixed;
+      top: 0;
+      left: -250px;
+      width: 250px;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      padding-top: 60px;
+      transition: left 0.3s ease;
+      z-index: 999;
+    }
+    .side-menu.open {
+      left: 0;
+    }
+    .side-menu ul {
+      list-style: none;
+    }
+    .side-menu ul li {
+      margin: 15px 0;
+    }
+    .side-menu ul li a {
+      display: block;
+      padding: 15px 20px;
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      transition: background-color 0.3s ease;
+    }
+    .side-menu ul li a:hover {
+      background-color: rgba(255,255,255,0.2);
+      border-radius: 5px;
+      color: #1a73e8;
+    }
+    
+    
+    /* --------------------------
+       HERO / INTRODUÇÃO IMPACTANTE
+    --------------------------- */
+    header.hero {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+      background: transparent;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 0 20px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .hero-content h1 {
+      font-size: 3.5rem;
+      color: #1a73e8;
+      margin-bottom: 20px;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .hero-content p {
+      font-size: 1.3rem;
+      margin-bottom: 40px;
+    }
+    .hero-content .btn {
+      padding: 15px 30px;
+      background: #1a73e8;
+      color: white;
+      text-decoration: none;
+      border-radius: 30px;
+      transition: background 0.3s ease;
+    }
+    .hero-content .btn:hover {
+      background: #1558b2;
+    }
+    
+    /* --------------------------
+       MAIN CONTENT
+    --------------------------- */
+    main {
+      flex: 1;
+      position: relative;
+      z-index: 2;
+      padding: 100px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .contact-header {
+      margin-bottom: 50px;
+    }
+    .contact-header h2 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .contact-header p {
+      font-size: 1.3rem;
+      margin-bottom: 40px;
+    }
+    .contact-form {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 40px;
+      border-radius: 10px;
+      max-width: 600px;
+      margin: 0 auto 50px;
+      text-align: left;
+    }
+    .contact-form h3 {
+      font-size: 2rem;
+      color: #1a73e8;
+      margin-bottom: 20px;
+    }
+    .contact-form form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .contact-form input,
+    .contact-form textarea {
+      padding: 15px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+    .contact-form button {
+      padding: 15px;
+      background: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .contact-form button:hover {
+      background: #1558b2;
+    }
+    .contact-map {
+      margin-bottom: 50px;
+    }
+    .contact-map iframe {
+      width: 100%;
+      height: 400px;
+      border: none;
+      border-radius: 10px;
+      text-align: center;
+     }
+    .location{
+      text-align:center;
+      color:#007bff;
+    }
+    .contact-info {
+      margin-bottom: 50px;
+      padding: 20px;
+    }
+    .contact-info h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      text-align: center;
+      color:#007bff;
+    }
+    .contact-info p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 0 auto 30px;
+      text-align: justify;
+    }
+    
+    /* --------------------------
+       FOOTER (igual aos Proyectos)
+    --------------------------- */
+    footer {
+      position: relative;
+      background: transparent;
+      padding: 40px 0;
+      color: #e0e0e0;
+      text-align: center;
+      z-index: 2;
+    }
+    .footer-content {
+      position: relative;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .footer-icons a {
+      color: white;
+      font-size: 24px;
+      margin: 0 10px;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+    .footer-icons a:hover {
+      transform: scale(1.1);
+      color: #1a73e8;
+    }
+    .footer-links a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 1.2rem;
+      transition: color 0.3s ease;
+    }
+    .footer-links a:hover {
+      color: #1a73e8;
+    }
+    .footer-content p {
+      margin-top: 20px;
+    }
+    
+    /* --------------------------
+       BOTÓN "VOLVER ARRIBA"
+    --------------------------- */
+    #backToTop {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      padding: 15px 20px;
+      background: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      display: none;
+      z-index: 1000;
+      transition: background 0.3s ease;
+    }
+    #backToTop:hover {
+      background: #1558b2;
+    }
+    
+    /* --------------------------
+       RESPONSIVIDADE
+    --------------------------- */
+    @media (max-width: 768px) {
+      .hero-content h1 {
+        font-size: 2.5rem;
+      }
+      .hero-content p {
+        font-size: 1.1rem;
+      }
+    }
+/* ==========================
+       Botón "¿Quieres probarla?" (externo)
+========================== */
+.open-form {
+  margin: 30px auto 50px;
+  padding: 15px 30px;
+  background-color: #1a73e8;
+  border: none;
+  border-radius: 30px;
+  color: white;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.open-form:hover {
+  background-color: #1558b2;
+}
+
+/* ==========================
+       Overlay Form (Experiência Imersiva)
+       – Aparece sobre el modal 
+    ========================== */
+    #overlay-form {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 11000; 
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    #overlay-form.open {
+      opacity: 1;
+      visibility: visible;
+    }
+    #bg-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
+    .form-container textarea {
+      width: calc(100% - 24px); 
+      max-width: 100%; 
+      resize: vertical; 
+      min-height: 250px;
+    }
+
+    .form-container {
+      position: relative;
+      background: #0d1a52;
+      padding: 30px;
+      border-radius: 10px;
+      width: 900px;
+      text-align: left;
+      z-index: 100;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    }
+    .form-container h2 {
+      color:#007bff;
+      font-size: 25px;
+      margin-bottom: 15px;
+      text-align: center;
+
+    }
+    .form-container label {
+      display: block;
+      text-align: left;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    .form-container input,
+    .form-container textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+    .form-container input::placeholder,
+    .form-container textarea::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+    .form-container button[type="submit"] {
+      margin-top:4px;
+      width: 10%;
+      padding: 12px;
+      background: #007bff;
+      color: white;
+      font-size: 14px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .form-container button[type="submit"]:hover {
+      background: #0056b3;
+    }
+    .checkbox-container {
+      display: flex;
+      align-items: center; 
+      gap: 5px; 
+      font-size: 12px;
+      color: white;
+      white-space: normal; 
+    }
+
+    .checkbox-container input {
+      width: 16px; 
+      height: 16px;
+      margin-right: 5px; 
+    }
+
+    .checkbox-container label {
+      flex: 1; 
+      text-align: left;
+    }
+
+    
+
+
+    .checkbox-container a {
+      color: #1a73e8;
+      text-decoration: none;
+    }
+    .checkbox-container a:hover {
+      text-decoration: underline;
+    }
+    .close-form {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .close-form img {
+      width: 20px;
+    }
+    
+
+  </style>
+</head>
+<body>
+  <div class="video-background">
+    <video autoplay muted loop id="bg-video">
+      <source src="assets/background.mp4" type="video/mp4">
+      Tu navegador no soporta videos HTML5.
+    </video>
+  </div>
+  
+  <div class="logo" id="logo">
+    <img src="assets/logo.png" alt="Logotipo">
+  </div>
+  
+  <nav class="side-menu" id="side-menu">
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="sobre.html">Sobre Nosotros</a></li>
+      <li><a href="productos.html">Productos</a></li>
+      <li><a href="proyectos.html">Proyectos</a></li>
+      <li><a href="carreras.html">Carreras</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
+      <li><a href="politica-de-privacidad.html">Política de Privacidad</a></li>
+    </ul>
+  </nav>
+  
+  <header class="hero reveal">
+    <div class="hero-content">
+      <h1 id="typed-title" data-text="Contacto"></h1>
+      <p>En Callidus, estamos aquí para ayudarte. Contáctanos para consultas, colaboraciones o cualquier información que necesites.</p>
+      <button class="open-form" onclick="mostrarFormulario()">Contacte-nos!</button>
+    </div>
+  </header>
+  
+     <div id="overlay-form">
+      <video autoplay muted loop id="bg-video">
+        <source src="assets/background.mp4" type="video/mp4">
+        Tu navegador no soporta videos HTML5.
+      </video>
+      <div class="form-container">
+        <button class="close-form" onclick="fecharFormulario()">
+          <img src="assets/icon-close.png" alt="Cerrar">
+        </button>
+        <h2>Déjanos tus datos de contacto</h2>
+        <form>
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" placeholder="Tu nombre" required>
+    
+          <label for="email">Email *</label>
+          <input type="email" id="email" placeholder="Tu correo electrónico" required>
+    
+          <label for="mensaje">Mensaje</label>
+          <textarea id="mensaje" placeholder="Escribe tu mensaje"></textarea>
+    
+          <div class="checkbox-container">
+            <input type="checkbox" id="privacidad" required>
+            <label for="privacidad">
+              Estoy de acuerdo con la <a href="politica-de-privacidad.html">política de privacidad de datos</a>
+            </label>
+          </div>
+    
+          <button type="submit">Enviar</button>
+        </form>
+      </div>
+    </div>
+    
+    <section class="contact-map reveal">
+      <h2 class="location">Estamos ubicados en Calle Madrid, 01 - Madrid - España </h2>
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3036.932663994914!2d-3.708355484600562!3d40.41677527936357!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd42288d2fc8b8a7%3A0x8a51b1a7187fdcf3!2sPlaza%20Mayor%2C%20028012%20Madrid%2C%20Spain!5e0!3m2!1sen!2sus!4v1684854113823!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>    </section>
+    
+    <section class="contact-info reveal">
+      <h2>Información Adicional</h2>
+      <p>Callidus combina innovación y experiencia para ofrecer soluciones tecnológicas de vanguardia. No importa si eres un cliente, una empresa en crecimiento o un profesional buscando nuevas oportunidades, estamos aquí para escucharte y brindarte la mejor atención.</p>
+    </section>
+  </main>
+  
+  <footer class="reveal">
+    <div class="footer-content">
+      <div class="footer-icons">
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+      </div>
+      <div class="footer-links">
+        <a href="politica-de-privacidad.html">Política de Privacidad y Términos de Uso</a>
+      </div>
+      <p>&copy; 2025 Callidus</p>
+    </div>
+  </footer>
+  
+  <script src="js/script.js"></script>
+
+</body>
+</html>

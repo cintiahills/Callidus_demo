@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Callidus - Política de Privacidad</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  
+  <style>
+    /* --------------------------
+       BACKGROUND VIDEO GLOBAL
+    --------------------------- */
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+      opacity: 0.3;
+    }
+    .video-background video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+     
+    /* --------------------------
+       ESTILOS GLOBAIS
+    --------------------------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: black; 
+      color: #e0e0e0;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    
+    /* --------------------------
+       REVEAL - ANIMAÇÃO AO ROLAR
+    --------------------------- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* --------------------------
+       TÍTULO FIXO AO ROLAR
+    --------------------------- */
+    .hero-content {
+    position: relative; 
+    text-align: center;
+    padding: 0 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    }
+    .hero-content h1,
+    .hero-content p {
+      margin: 0;
+    }
+    
+    /* --------------------------
+       SETA PARA BAIXO
+    --------------------------- */
+    .down-arrow {
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: 60%; 
+    transform: translateX(-50%);
+    font-size: 3rem;
+    color: white;
+    cursor: pointer;
+    opacity: 0; 
+    animation: fade-in 2s ease-in-out forwards; 
+    }
+
+    @keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+    }
+/* --------------------------
+       LOGO E MENU LATERAL
+    --------------------------- */
+    .logo {
+      position: fixed;
+      top: 15px;
+      left: 20px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+    .logo img {
+      width: 150px;
+    }
+    .side-menu {
+      position: fixed;
+      top: 0;
+      left: -250px;
+      width: 250px;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      padding-top: 60px;
+      transition: left 0.3s ease;
+      z-index: 999;
+    }
+    .side-menu.open {
+      left: 0;
+    }
+    .side-menu ul {
+      list-style: none;
+    }
+    .side-menu ul li {
+      margin: 15px 0;
+    }
+    .side-menu ul li a {
+      display: block;
+      padding: 15px 20px;
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      transition: background-color 0.3s ease;
+    }
+    .side-menu ul li a:hover {
+      background-color: rgba(255,255,255,0.2);
+      border-radius: 5px;
+      color: #1a73e8;
+    }
+    
+    
+    /* --------------------------
+       HERO / INTRODUÇÃO IMPACTANTE
+    --------------------------- */
+    header.hero {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+      background: transparent;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 0 20px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .hero-content h1 {
+      font-size: 3.5rem;
+      color: #1a73e8;
+      margin-bottom: 20px;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .hero-content p {
+      font-size: 1.3rem;
+      margin-bottom: 40px;
+    }
+    .hero-content .btn {
+      padding: 15px 30px;
+      background: #1a73e8;
+      color: white;
+      text-decoration: none;
+      border-radius: 30px;
+      transition: background 0.3s ease;
+    }
+    .hero-content .btn:hover {
+      background: #1558b2;
+    }
+    
+    /* --------------------------
+       MAIN CONTENT
+    --------------------------- */
+    main {
+      flex: 1;
+      position: relative;
+      z-index: 2;
+      padding: 100px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    .policy-header {
+      margin-bottom: 50px;
+      text-align: center;
+    }
+    .policy-header h2 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+    .policy-header p {
+      font-size: 1.3rem;
+      margin-bottom: 40px;
+    }
+    .policy-section {
+      margin-bottom: 50px;
+      padding: 20px;
+      border-radius: 10px;
+      background-color: rgba(255, 255, 255, 0.1);
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+    }
+    .policy-section h3 {
+      font-size: 2rem;
+      color: #1a73e8;
+      margin-bottom: 15px;
+    }
+    .policy-section p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      text-align: justify;
+      margin-bottom: 15px;
+    }
+    .policy-section ul {
+      margin-left: 20px;
+      list-style: disc;
+      margin-bottom: 15px;
+    }
+    /* --------------------------
+       FOOTER (igual aos Proyectos)
+    --------------------------- */
+    footer {
+      position: relative;
+      background: transparent;
+      padding: 40px 0;
+      color: #e0e0e0;
+      text-align: center;
+      z-index: 2;
+    }
+    .footer-content {
+      position: relative;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .footer-icons a {
+      color: white;
+      font-size: 24px;
+      margin: 0 10px;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+    .footer-icons a:hover {
+      transform: scale(1.1);
+      color: #1a73e8;
+    }
+    .footer-links a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 1.2rem;
+      transition: color 0.3s ease;
+    }
+    .footer-links a:hover {
+      color: #1a73e8;
+    }
+    .footer-content p {
+      margin-top: 20px;
+    }
+    
+    /* --------------------------
+       BOTÓN "VOLVER ARRIBA"
+    --------------------------- */
+    #backToTop {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      padding: 15px 20px;
+      background: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      display: none;
+      z-index: 1000;
+      transition: background 0.3s ease;
+    }
+    #backToTop:hover {
+      background: #1558b2;
+    }
+    
+    /* --------------------------
+       RESPONSIVIDADE
+    --------------------------- */
+    @media (max-width: 768px) {
+      .hero-content h1 {
+        font-size: 2.5rem;
+      }
+      .hero-content p {
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="video-background">
+    <video autoplay muted loop id="bg-video">
+      <source src="assets/background.mp4" type="video/mp4">
+      Tu navegador no soporta videos HTML5.
+    </video>
+  </div>
+  
+  <div class="logo" id="logo">
+    <img src="assets/logo.png" alt="Logotipo">
+  </div>
+  
+  <nav class="side-menu" id="side-menu">
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="sobre.html">Sobre Nosotros</a></li>
+      <li><a href="productos.html">Productos</a></li>
+      <li><a href="proyectos.html">Proyectos</a></li>
+      <li><a href="carreras.html">Carreras</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
+      <li><a href="politica-de-privacidad.html">Política de Privacidad</a></li>
+    </ul>
+  </nav>
+  
+  <header class="hero reveal">
+    <div class="hero-content">
+      <h1 id="typed-title" data-text="Política de Privacidad"></h1>
+
+      <p>Nuestra privacidad es tu tranquilidad. Conoce cómo protegemos tu información.</p>
+    </div>
+  </header>
+  
+  <main id="main-content">
+    <div class="policy-header reveal">
+      <h2>Política de Privacidad</h2>
+      <p>Esta política explica cómo recopilamos, utilizamos y protegemos tus datos en Callidus.</p>
+    </div>
+    
+    <section class="policy-section reveal">
+      <h3>Introducción</h3>
+      <p>En Callidus, nos comprometemos a proteger la privacidad de nuestros usuarios. Esta política de privacidad describe las prácticas que aplicamos para recopilar, utilizar y asegurar tu información personal. Al utilizar nuestro sitio web, aceptas los términos de esta política.</p>
+    </section>
+    
+    <section class="policy-section reveal">
+      <h3>Información que Recopilamos</h3>
+      <p>Podemos recopilar información personal como nombre, correo electrónico y otros datos que tú decidas compartir a través de nuestros formularios.</p>
+      <ul>
+        <li>Datos de contacto (nombre, correo electrónico, teléfono).</li>
+        <li>Información de uso del sitio web y preferencias.</li>
+        <li>Datos técnicos, como dirección IP y tipo de navegador.</li>
+      </ul>
+    </section>
+    
+    <section class="policy-section reveal">
+      <h3>Uso de la Información</h3>
+      <p>Utilizamos la información recopilada para:</p>
+      <ul>
+        <li>Proporcionar y mejorar nuestros servicios.</li>
+        <li>Responder a tus consultas y solicitudes.</li>
+        <li>Personalizar la experiencia de usuario.</li>
+        <li>Enviar comunicaciones relevantes y ofertas.</li>
+      </ul>
+    </section>
+    
+    <section class="policy-section reveal">
+      <h3>Cookies y Tecnologías Similares</h3>
+      <p>Callidus utiliza cookies y tecnologías similares para mejorar la funcionalidad del sitio, analizar el tráfico y personalizar tu experiencia. Puedes ajustar la configuración de cookies en tu navegador, pero ten en cuenta que esto puede afectar la funcionalidad del sitio.</p>
+    </section>
+    
+    <section class="policy-section reveal">
+      <h3>Seguridad de la Información</h3>
+      <p>Implementamos medidas de seguridad técnicas y organizativas para proteger tus datos contra accesos no autorizados, alteraciones o divulgación. Nuestro compromiso es garantizar que tu información esté segura y protegida.</p>
+    </section>
+    
+    <section class="policy-section reveal">
+      <h3>Derechos del Usuario</h3>
+      <p>Como usuario, tienes derecho a:</p>
+      <ul>
+        <li>Acceder a tus datos personales.</li>
+        <li>Solicitar la corrección de datos inexactos.</li>
+        <li>Solicitar la eliminación de tus datos, en ciertos casos.</li>
+        <li>Restringir u oponerte al procesamiento de tus datos.</li>
+      </ul>
+    </section>
+    
+    <section class="policy-section reveal">
+      <h3>Cambios en la Política de Privacidad</h3>
+      <p>Nos reservamos el derecho de modificar esta política en cualquier momento. Cualquier cambio será publicado en esta página y, de ser significativo, se notificará a nuestros usuarios a través de nuestro sitio web.</p>
+    </section>
+    
+    <section class="policy-section reveal">
+      <h3>Contacto</h3>
+      <p>Si tienes preguntas o inquietudes sobre nuestra política de privacidad, puedes contactarnos a través de nuestro formulario de contacto o enviarnos un correo electrónico a <strong>privacidad@callidus.com</strong>.</p>
+    </section>
+  </main>
+  
+  <footer class="reveal">
+    <div class="footer-content">
+      <div class="footer-icons">
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+      </div>
+      <div class="footer-links">
+        <a href="politica-de-privacidad.html">Política de Privacidad y Términos de Uso</a>
+      </div>
+      <p>&copy; 2025 Callidus</p>
+    </div>
+  </footer>
+  
+  <button id="backToTop" onclick="scrollToTop()">Volver arriba</button>
+  
+  <script src="js/script.js"></script>
+
+</body>
+</html>
