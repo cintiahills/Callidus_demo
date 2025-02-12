@@ -79,7 +79,7 @@ setTimeout(() => {
 
     typeTitle();
     localStorage.setItem('preloaderShown', 'true');
-  }, 2100);
+  }, 3000);
 }, 3000);
 } else {
 preloader.style.display = 'none';
